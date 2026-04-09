@@ -1,0 +1,249 @@
+"use client";
+
+import type { ScoutingSpot } from "@/types";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  X,
+  MapPin,
+  Mountain,
+  Footprints,
+  Calendar,
+  Car,
+  TreePine,
+  ShieldCheck,
+  AlertTriangle,
+  Bookmark,
+  BookmarkCheck,
+  Navigation,
+  Binoculars,
+} from "lucide-react";
+import {
+  ACCESS_TYPE_LABELS,
+  ACCESS_TYPE_COLORS,
+  DIFFICULTY_LABELS,
+  DIFFICULTY_COLORS,
+  BADGE_LABELS,
+  BADGE_COLORS,
+  SEASON_LABELS,
+  formatElevation,
+  formatDistance,
+  cn,
+} from "@/lib/utils";
+
+interface SpotDetailDrawerProps {
+  spot: ScoutingSpot;
+  isSaved: boolean;
+  onToggleSave: () => void;
+  onClose: () => void;
+}
+
+export function SpotDetailDrawer({
+  spot,
+  isSaved,
+  onToggleSave,
+  onClose,
+}: SpotDetailDrawerProps) {
+  return (
+    <div className="slide-up flex flex-col h-full">
+      {/* Header */}
+      <div className="flex items-start justify-between p-5 border-b border-sand/70">
+        <div className="min-w-0 pr-2">
+          <h2 className="text-lg font-bold text-foreground leading-tight">
+            {spot.name}
+          </h2>
+          <p className="text-sm text-stone-warm mt-1 flex items-center gap-1.5">
+            <MapPin className="h-3.5 w-3.5 shrink-0" />
+            {spot.region} · {spot.coordinates.lat.toFixed(3)}°N,{" "}
+            {Math.abs(spot.coordinates.lng).toFixed(3)}°W
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          className="shrink-0 p-1.5 rounded-lg hover:bg-sand-light transition-colors"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5 text-stone-warm" />
+        </button>
+      </div>
+
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-5">
+        {/* Badges */}
+        <div className="flex flex-wrap gap-1.5">
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+              DIFFICULTY_COLORS[spot.difficulty]
+            )}
+          >
+            {DIFFICULTY_LABELS[spot.difficulty]}
+          </span>
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+              ACCESS_TYPE_COLORS[spot.accessType]
+            )}
+          >
+            {ACCESS_TYPE_LABELS[spot.accessType]}
+          </span>
+          {spot.badges.map((badge) => (
+            <span
+              key={badge}
+              className={cn(
+                "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium",
+                BADGE_COLORS[badge]
+              )}
+            >
+              {BADGE_LABELS[badge]}
+            </span>
+          ))}
+        </div>
+
+        {/* Quick stats */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-lg bg-sand-light/50 p-3">
+            <div className="flex items-center gap-1.5 text-xs text-stone-warm mb-1">
+              <Mountain className="h-3.5 w-3.5" />
+              Elevation
+            </div>
+            <div className="text-sm font-semibold text-foreground">
+              {formatElevation(spot.elevation)}
+            </div>
+          </div>
+          <div className="rounded-lg bg-sand-light/50 p-3">
+            <div className="flex items-center gap-1.5 text-xs text-stone-warm mb-1">
+              <Footprints className="h-3.5 w-3.5" />
+              Hike Distance
+            </div>
+            <div className="text-sm font-semibold text-foreground">
+              {formatDistance(spot.hikeDistance)}
+            </div>
+          </div>
+          <div className="rounded-lg bg-sand-light/50 p-3">
+            <div className="flex items-center gap-1.5 text-xs text-stone-warm mb-1">
+              <Car className="h-3.5 w-3.5" />
+              Road Access
+            </div>
+            <div className="text-sm font-semibold text-foreground">
+              {spot.roadAccess ? "Yes" : "No — 4WD/Hike"}
+            </div>
+          </div>
+          <div className="rounded-lg bg-sand-light/50 p-3">
+            <div className="flex items-center gap-1.5 text-xs text-stone-warm mb-1">
+              <Calendar className="h-3.5 w-3.5" />
+              Best Season
+            </div>
+            <div className="text-sm font-semibold text-foreground">
+              {spot.bestSeasons.map((s) => SEASON_LABELS[s]).join(", ")}
+            </div>
+          </div>
+        </div>
+
+        {/* Species */}
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
+            <TreePine className="h-4 w-4 text-forest" />
+            Species Likely Found
+          </h3>
+          <div className="flex flex-wrap gap-1.5">
+            {spot.species.map((sp) => (
+              <Badge key={sp} variant="default">
+                {sp}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-2">
+            Description
+          </h3>
+          <p className="text-sm text-stone-warm leading-relaxed">
+            {spot.description}
+          </p>
+        </div>
+
+        {/* Scouting notes */}
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
+            <Binoculars className="h-4 w-4 text-moss" />
+            Scouting Notes
+          </h3>
+          <p className="text-sm text-stone-warm leading-relaxed">
+            {spot.scoutingNotes}
+          </p>
+        </div>
+
+        {/* Access notes */}
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
+            <Navigation className="h-4 w-4 text-sky-600" />
+            Access Information
+          </h3>
+          <p className="text-sm text-stone-warm leading-relaxed">
+            {spot.accessNotes}
+          </p>
+        </div>
+
+        {/* Permit / Legal */}
+        <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-4">
+          <h3 className="text-sm font-semibold text-amber-800 mb-2 flex items-center gap-1.5">
+            <AlertTriangle className="h-4 w-4" />
+            Permit & Legal Notes
+          </h3>
+          <p className="text-sm text-amber-700 leading-relaxed">
+            {spot.permitNotes}
+          </p>
+        </div>
+
+        {/* Ethics reminder */}
+        <div className="rounded-lg border border-forest/20 bg-forest/5 p-4">
+          <h3 className="text-sm font-semibold text-forest mb-2 flex items-center gap-1.5">
+            <ShieldCheck className="h-4 w-4" />
+            Ethics Reminder
+          </h3>
+          <p className="text-sm text-forest/80 leading-relaxed">
+            {spot.ethicsReminder}
+          </p>
+        </div>
+
+        {/* Photo placeholder */}
+        <div className="rounded-lg border border-dashed border-sand bg-sand-light/30 p-8 text-center">
+          <div className="text-stone-warm/40 mb-2">
+            <Mountain className="h-8 w-8 mx-auto" />
+          </div>
+          <p className="text-sm text-stone-warm/60">
+            Photos coming soon
+          </p>
+        </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className="border-t border-sand/70 p-4 flex gap-2">
+        <Button
+          variant={isSaved ? "secondary" : "default"}
+          className="flex-1 gap-2"
+          onClick={onToggleSave}
+        >
+          {isSaved ? (
+            <>
+              <BookmarkCheck className="h-4 w-4" />
+              Saved
+            </>
+          ) : (
+            <>
+              <Bookmark className="h-4 w-4" />
+              Save Spot
+            </>
+          )}
+        </Button>
+        <Button variant="outline" className="flex-1 gap-2">
+          <Navigation className="h-4 w-4" />
+          Add to Trip
+        </Button>
+      </div>
+    </div>
+  );
+}
