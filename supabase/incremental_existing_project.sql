@@ -181,3 +181,21 @@ drop policy if exists "Users can delete own spot photos" on public.spot_photos;
 create policy "Users can delete own spot photos"
   on public.spot_photos for delete
   using (auth.uid() = user_id);
+
+-- New accounts: profile row is created with is_premium = true (matches fresh schema.sql).
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = ''
+as $$
+begin
+  insert into public.profiles (id, display_name, avatar_url, is_premium)
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', split_part(new.email, '@', 1)),
+    coalesce(new.raw_user_meta_data ->> 'avatar_url', new.raw_user_meta_data ->> 'picture'),
+    true
+  );
+  return new;
+end;
+$$;

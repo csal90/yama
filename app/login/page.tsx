@@ -72,7 +72,14 @@ export default function LoginPage() {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          // Must match Supabase Dashboard → Authentication → URL Configuration → Redirect URLs
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
       if (error) {
         setError(error.message);
       } else if (data.session) {
