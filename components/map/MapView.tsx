@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import maplibregl, {
   type Map as MapLibreMap,
   type Marker,
@@ -61,6 +61,23 @@ const STATUS_COLORS: Record<MarkerStatus, string> = {
   dead: "#9ca3af",
 };
 
+/** Preview marker before the user saves a new placement */
+function pendingPlacementEl(): HTMLDivElement {
+  const el = document.createElement("div");
+  el.className = "user-marker user-marker--pending";
+  el.setAttribute("aria-label", "New marker placement");
+    el.style.cssText = `
+    width: 16px;
+    height: 16px;
+    background: #f59e0b;
+    border: 3px solid #fff;
+    border-radius: 3px;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  `;
+  return el;
+}
+
 function userMarkerEl(status: MarkerStatus, isOwn: boolean): HTMLDivElement {
   const el = document.createElement("div");
   el.className = "user-marker";
@@ -100,6 +117,10 @@ interface MapViewProps {
   placeMode?: boolean;
   onMapClick?: (lat: number, lng: number) => void;
   onUserMarkerClick?: (marker: UserMarker) => void;
+  /** One-time fly (e.g. deep link from Saved → pinned tree) */
+  flyToPin?: { lat: number; lng: number } | null;
+  /** Unsaved placement — show a preview marker until the form is submitted */
+  pendingPlacement?: { lat: number; lng: number } | null;
 }
 
 export function MapView({
@@ -112,11 +133,15 @@ export function MapView({
   placeMode = false,
   onMapClick,
   onUserMarkerClick,
+  flyToPin = null,
+  pendingPlacement = null,
 }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markersRef = useRef<Map<string, Marker>>(new Map());
   const userMarkersRef = useRef<Map<string, Marker>>(new Map());
+  const draftMarkerRef = useRef<Marker | null>(null);
+  const [mapReady, setMapReady] = useState(false);
 
   const onSpotClickRef = useRef(onSpotClick);
   useEffect(() => {
@@ -182,6 +207,10 @@ export function MapView({
 
     map.on("style.load", () => addTerrain(map));
 
+    const markReady = () => setMapReady(true);
+    if (map.loaded()) markReady();
+    else map.once("load", markReady);
+
     map.on("click", (e) => {
       if (!placeModeRef.current) return;
       const fn = onMapClickRef.current;
@@ -193,10 +222,13 @@ export function MapView({
     mapRef.current = map;
 
     return () => {
+      setMapReady(false);
       markerStore.forEach((m) => m.remove());
       markerStore.clear();
       userMarkerStore.forEach((m) => m.remove());
       userMarkerStore.clear();
+      draftMarkerRef.current?.remove();
+      draftMarkerRef.current = null;
       map.remove();
       mapRef.current = null;
     };
@@ -309,6 +341,51 @@ export function MapView({
     };
   }, [userMarkers, currentUserId]);
 
+  // Preview marker for placement-in-progress (not yet saved to DB)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+
+    const cleanupDraft = () => {
+      draftMarkerRef.current?.remove();
+      draftMarkerRef.current = null;
+    };
+
+    if (!pendingPlacement) {
+      cleanupDraft();
+      return;
+    }
+
+    const render = () => {
+      cleanupDraft();
+      const el = pendingPlacementEl();
+      const m = new maplibregl.Marker({ element: el, anchor: "center" })
+        .setLngLat([pendingPlacement.lng, pendingPlacement.lat])
+        .addTo(map);
+      draftMarkerRef.current = m;
+
+      map.easeTo({
+        center: [pendingPlacement.lng, pendingPlacement.lat],
+        zoom: Math.max(map.getZoom(), 13),
+        pitch: map.getPitch(),
+        bearing: map.getBearing(),
+        duration: 700,
+        essential: true,
+      });
+    };
+
+    if (map.isStyleLoaded() && map.loaded()) {
+      render();
+    } else {
+      map.once("idle", render);
+    }
+
+    return () => {
+      map.off("idle", render);
+      cleanupDraft();
+    };
+  }, [pendingPlacement, mapReady]);
+
   // Fly to active spot
   useEffect(() => {
     const map = mapRef.current;
@@ -329,15 +406,38 @@ export function MapView({
     if (popup && !popup.isOpen()) marker.togglePopup();
   }, [activeSpot]);
 
+  // Deep link: fly to lat/lng (e.g. /map?mlat=&mlng=)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !flyToPin) return;
+
+    const run = () => {
+      map.easeTo({
+        center: [flyToPin.lng, flyToPin.lat],
+        zoom: Math.max(map.getZoom(), 12),
+        pitch: map.getPitch(),
+        bearing: map.getBearing(),
+        duration: 1200,
+        essential: true,
+      });
+    };
+
+    if (map.isStyleLoaded() && map.loaded()) {
+      run();
+    } else {
+      map.once("load", run);
+    }
+  }, [flyToPin]);
+
   if (!MAPTILER_KEY) {
     return (
       <div className="h-full w-full flex items-center justify-center bg-sand-light/30">
         <div className="text-center max-w-sm px-6">
           <p className="text-sm font-semibold text-bark mb-1">Map key missing</p>
-          <p className="text-xs text-stone-warm">
-            Add your free MapTiler key to <code className="bg-sand-light px-1 py-0.5 rounded text-[11px]">.env.local</code> as{" "}
-            <code className="bg-sand-light px-1 py-0.5 rounded text-[11px]">NEXT_PUBLIC_MAPTILER_KEY</code>.{" "}
-            Get one at{" "}
+          <p className="text-xs text-stone-warm leading-relaxed">
+            Set{" "}
+            <code className="bg-sand-light px-1 py-0.5 rounded text-[11px]">NEXT_PUBLIC_MAPTILER_KEY</code>{" "}
+            (free key from{" "}
             <a
               href="https://cloud.maptiler.com/account/keys/"
               target="_blank"
@@ -346,6 +446,13 @@ export function MapView({
             >
               cloud.maptiler.com
             </a>
+            ).{" "}
+            Local: put it in{" "}
+            <code className="bg-sand-light px-1 py-0.5 rounded text-[11px]">.env.local</code>
+            . Vercel: Project → Settings → Environment Variables → same name and value,
+            then redeploy —{" "}
+            <code className="bg-sand-light px-1 py-0.5 rounded text-[11px]">NEXT_PUBLIC_*</code>{" "}
+            is set at build time, not from your laptop&apos;s .env file.
           </p>
         </div>
       </div>

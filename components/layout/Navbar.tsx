@@ -2,72 +2,44 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   TreePine,
   Map,
   BookOpen,
-  Bookmark,
   Menu,
   X,
   LogIn,
   LogOut,
   User,
   Sparkles,
+  Library,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
-import type { User as SupabaseUser, AuthChangeEvent, Session } from "@supabase/supabase-js";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { usePremium } from "@/lib/hooks/usePremium";
+import { clearPremiumCache } from "@/lib/premiumCache";
 
 const navLinks = [
   { href: "/map", label: "Explore Map", icon: Map },
   { href: "/species", label: "Species Guide", icon: BookOpen },
-  { href: "/saved", label: "Saved Spots", icon: Bookmark },
-  { href: "/journal", label: "Journal", icon: BookOpen, premium: true },
+  { href: "/saved", label: "Collection", icon: Library },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
+  const { isPremium, loading: premiumLoading } = usePremium();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
   const isMapPage = pathname === "/map";
   const supabase = createClient();
 
-  useEffect(() => {
-    if (
-      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-      !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    )
-      return;
-
-    const init = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("is_premium")
-          .eq("id", data.user.id)
-          .single();
-        setIsPremium(profile?.is_premium ?? false);
-      }
-    };
-    init();
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase.auth]);
-
   async function handleSignOut() {
+    if (user) clearPremiumCache(user.id);
     await supabase.auth.signOut();
     setUserMenuOpen(false);
     router.push("/");
@@ -80,6 +52,8 @@ export function Navbar() {
     user?.user_metadata?.full_name ||
     user?.user_metadata?.name ||
     user?.email?.split("@")[0];
+
+  const showProUpsell = user && !premiumLoading && !isPremium;
 
   return (
     <header
@@ -105,9 +79,7 @@ export function Navbar() {
 
         <div className="hidden md:flex items-center gap-1">
           <nav className="flex items-center gap-1">
-            {navLinks
-              .filter((link) => !link.premium || (user && isPremium))
-              .map(({ href, label, icon: Icon, premium }) => (
+            {navLinks.map(({ href, label, icon: Icon }) => (
               <Link key={href} href={href}>
                 <Button
                   variant={pathname === href ? "default" : "ghost"}
@@ -119,16 +91,23 @@ export function Navbar() {
                 >
                   <Icon className="h-4 w-4" />
                   {label}
-                  {premium && (
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0 text-[9px] font-bold uppercase text-amber-700">
-                      <Sparkles className="h-2 w-2" />
-                      Pro
-                    </span>
-                  )}
                 </Button>
               </Link>
             ))}
           </nav>
+
+          {showProUpsell && (
+            <Link href="/premium" className="hidden md:inline-flex">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 border-amber-200/90 text-amber-900 bg-amber-50/60 hover:bg-amber-50"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                Pro
+              </Button>
+            </Link>
+          )}
 
           <div className="ml-2 pl-2 border-l border-sand/80">
             {user ? (
@@ -197,9 +176,18 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-sand/80 bg-white slide-up">
           <nav className="flex flex-col p-4 gap-1">
-            {navLinks
-              .filter((link) => !link.premium || (user && isPremium))
-              .map(({ href, label, icon: Icon, premium }) => (
+            {showProUpsell && (
+              <Link href="/premium" onClick={() => setMobileMenuOpen(false)}>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 border-amber-200/90 text-amber-900 bg-amber-50/60"
+                >
+                  <Sparkles className="h-4 w-4 text-amber-600" />
+                  Yama Pro
+                </Button>
+              </Link>
+            )}
+            {navLinks.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
@@ -211,12 +199,6 @@ export function Navbar() {
                 >
                   <Icon className="h-4 w-4" />
                   {label}
-                  {premium && (
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0 text-[9px] font-bold uppercase text-amber-700">
-                      <Sparkles className="h-2 w-2" />
-                      Pro
-                    </span>
-                  )}
                 </Button>
               </Link>
             ))}

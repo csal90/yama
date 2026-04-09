@@ -192,21 +192,32 @@ export function useSavedSpots() {
   const addSpotToTrip = useCallback(
     async (tripId: string, spotId: string) => {
       if (!user) return;
-      setTripPlans((prev) =>
-        prev.map((t) =>
-          t.id === tripId && !t.spots.includes(spotId)
-            ? { ...t, spots: [...t.spots, spotId] }
-            : t
-        )
-      );
-      const trip = tripPlans.find((t) => t.id === tripId);
-      await supabase.from("trip_plan_spots").insert({
+
+      let position = 0;
+      let shouldInsert = false;
+
+      setTripPlans((prev) => {
+        const trip = prev.find((t) => t.id === tripId);
+        if (!trip || trip.spots.includes(spotId)) return prev;
+        shouldInsert = true;
+        position = trip.spots.length;
+        return prev.map((t) =>
+          t.id === tripId ? { ...t, spots: [...t.spots, spotId] } : t,
+        );
+      });
+
+      if (!shouldInsert) return;
+
+      const { error } = await supabase.from("trip_plan_spots").insert({
         trip_plan_id: tripId,
         spot_id: spotId,
-        position: trip ? trip.spots.length : 0,
+        position,
       });
+      if (error) {
+        console.error("trip_plan_spots insert:", error.message);
+      }
     },
-    [user, tripPlans, supabase]
+    [user, supabase],
   );
 
   const removeSpotFromTrip = useCallback(

@@ -24,9 +24,9 @@ const features = [
   },
   {
     icon: Bookmark,
-    title: "Save & Plan Trips",
+    title: "Collection (Pro)",
     description:
-      "Bookmark promising spots, add personal notes, and organize scouting trips by region. Build your collection wishlist over time.",
+      "With Pro: save catalog spots, build trip itineraries, and keep a collection journal — plus private markers and GPX from the map.",
     color: "bg-amber-50 text-amber-600",
   },
   {

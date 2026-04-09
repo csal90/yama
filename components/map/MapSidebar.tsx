@@ -2,6 +2,7 @@
 
 import type { ScoutingSpot } from "@/types";
 import type { MapFilters } from "@/types";
+import type { TripPlan } from "@/lib/hooks/useSavedSpots";
 import { SpotCard } from "@/components/spots/SpotCard";
 import { MapFilterPanel } from "@/components/map/MapFilters";
 import { SpotDetailDrawer } from "@/components/spots/SpotDetailDrawer";
@@ -28,6 +29,9 @@ interface MapSidebarProps {
   privateNotes?: string;
   onNotesChange?: (notes: string) => void;
   onDownloadGpx?: () => void;
+  tripPlans?: TripPlan[];
+  onAddToTrip?: (tripId: string) => void;
+  collectionEnabled?: boolean;
 }
 
 export function MapSidebar({
@@ -48,6 +52,9 @@ export function MapSidebar({
   privateNotes,
   onNotesChange,
   onDownloadGpx,
+  tripPlans,
+  onAddToTrip,
+  collectionEnabled = true,
 }: MapSidebarProps) {
   if (activeSpot) {
     return (
@@ -61,6 +68,9 @@ export function MapSidebar({
           privateNotes={privateNotes}
           onNotesChange={onNotesChange}
           onDownloadGpx={onDownloadGpx}
+          tripPlans={tripPlans}
+          onAddToTrip={onAddToTrip}
+          collectionEnabled={collectionEnabled}
         />
       </div>
     );

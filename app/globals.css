@@ -209,3 +209,22 @@ body {
 .pin-pulse {
   animation: pinPulse 1.5s infinite;
 }
+
+/* Pending user marker placement (before save) */
+@keyframes user-marker-pending-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px rgba(245, 158, 11, 0.9),
+      0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px rgba(245, 158, 11, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.user-marker--pending {
+  animation: user-marker-pending-pulse 1.4s ease-in-out infinite;
+}

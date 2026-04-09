@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { Lock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePremium } from "@/lib/hooks/usePremium";
-import { useState } from "react";
 
 interface PremiumGateProps {
   children: React.ReactNode;
@@ -23,14 +23,7 @@ export function PremiumGate({ children, fallback }: PremiumGateProps) {
 }
 
 function DefaultFallback() {
-  const { isAuthenticated, upgradeToPremium } = usePremium();
-  const [upgrading, setUpgrading] = useState(false);
-
-  async function handleUpgrade() {
-    setUpgrading(true);
-    await upgradeToPremium();
-    setUpgrading(false);
-  }
+  const { isAuthenticated } = usePremium();
 
   if (!isAuthenticated) {
     return (
@@ -49,16 +42,13 @@ function DefaultFallback() {
       <Sparkles className="h-6 w-6 text-amber-500 mx-auto mb-2" />
       <p className="text-sm font-medium text-bark mb-1">Premium Feature</p>
       <p className="text-xs text-stone-warm mb-3">
-        Upgrade to unlock tree markers, collection journal, and more.
+        Subscribe for Collection (saved spots, trips, journal), tree markers, and more.
       </p>
-      <Button
-        size="sm"
-        className="gap-2"
-        onClick={handleUpgrade}
-        disabled={upgrading}
-      >
-        <Sparkles className="h-3.5 w-3.5" />
-        {upgrading ? "Upgrading..." : "Upgrade to Premium"}
+      <Button size="sm" className="gap-2" asChild>
+        <Link href="/premium">
+          <Sparkles className="h-3.5 w-3.5" />
+          View Yama Pro
+        </Link>
       </Button>
     </div>
   );

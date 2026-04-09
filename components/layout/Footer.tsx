@@ -46,7 +46,7 @@ export function Footer() {
                   href="/saved"
                   className="hover:text-forest transition-colors"
                 >
-                  Saved Spots
+                  Collection
                 </Link>
               </li>
             </ul>

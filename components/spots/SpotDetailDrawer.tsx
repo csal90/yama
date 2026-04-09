@@ -1,6 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import type { ScoutingSpot } from "@/types";
+import type { TripPlan } from "@/lib/hooks/useSavedSpots";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,6 +46,10 @@ interface SpotDetailDrawerProps {
   privateNotes?: string;
   onNotesChange?: (notes: string) => void;
   onDownloadGpx?: () => void;
+  tripPlans?: TripPlan[];
+  onAddToTrip?: (tripId: string) => void;
+  /** Saved spots + trips (Collection). When false, show Pro CTAs instead. */
+  collectionEnabled?: boolean;
 }
 
 export function SpotDetailDrawer({
@@ -54,7 +61,20 @@ export function SpotDetailDrawer({
   privateNotes,
   onNotesChange,
   onDownloadGpx,
+  tripPlans = [],
+  onAddToTrip,
+  collectionEnabled = true,
 }: SpotDetailDrawerProps) {
+  const [tripFeedback, setTripFeedback] = useState<string | null>(null);
+  const tripsEligible =
+    onAddToTrip && tripPlans.length > 0
+      ? tripPlans.filter((t) => !t.spots.includes(spot.id))
+      : [];
+
+  useEffect(() => {
+    setTripFeedback(null);
+  }, [spot.id]);
+
   return (
     <div className="slide-up flex flex-col h-full">
       {/* Header */}
@@ -253,32 +273,106 @@ export function SpotDetailDrawer({
       </div>
 
       {/* Action buttons */}
-      <div className="border-t border-sand/70 p-4 flex gap-2">
-        <Button
-          variant={isSaved ? "secondary" : "default"}
-          className="flex-1 gap-2"
-          onClick={onToggleSave}
-        >
-          {isSaved ? (
-            <>
-              <BookmarkCheck className="h-4 w-4" />
-              Saved
-            </>
+      <div className="border-t border-sand/70 p-4 space-y-2">
+        <div className="flex gap-2">
+          {collectionEnabled ? (
+            <Button
+              variant={isSaved ? "secondary" : "default"}
+              className="flex-1 gap-2"
+              onClick={onToggleSave}
+            >
+              {isSaved ? (
+                <>
+                  <BookmarkCheck className="h-4 w-4" />
+                  Saved
+                </>
+              ) : (
+                <>
+                  <Bookmark className="h-4 w-4" />
+                  Save Spot
+                </>
+              )}
+            </Button>
           ) : (
-            <>
-              <Bookmark className="h-4 w-4" />
-              Save Spot
-            </>
+            <Button variant="default" className="flex-1 gap-2" asChild>
+              <Link href="/premium">
+                <Sparkles className="h-4 w-4" />
+                Save with Pro
+              </Link>
+            </Button>
           )}
-        </Button>
-        <Button variant="outline" className="flex-1 gap-2">
-          <Navigation className="h-4 w-4" />
-          Add to Trip
-        </Button>
-        {isPremium && onDownloadGpx && (
-          <Button variant="ghost" size="icon" onClick={onDownloadGpx} title="Download GPX">
-            <Download className="h-4 w-4" />
-          </Button>
+          {collectionEnabled ? (
+            onAddToTrip ? (
+              tripsEligible.length > 0 ? (
+                <div className="flex-1 min-w-0 relative">
+                  <label htmlFor="add-to-trip" className="sr-only">
+                    Add this spot to a trip plan
+                  </label>
+                  <select
+                    id="add-to-trip"
+                    className="flex h-10 w-full rounded-md border border-sand bg-white px-3 py-2 text-sm font-medium text-foreground shadow-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/30 cursor-pointer"
+                    defaultValue=""
+                    onChange={(e) => {
+                      const id = e.target.value;
+                      if (!id) return;
+                      onAddToTrip(id);
+                      setTripFeedback(
+                        tripPlans.find((t) => t.id === id)?.name ?? "Trip",
+                      );
+                      e.target.value = "";
+                    }}
+                  >
+                    <option value="">Add to trip…</option>
+                    {tripsEligible.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : tripPlans.some((t) => t.spots.includes(spot.id)) ? (
+                <Button variant="outline" className="flex-1 gap-2" disabled>
+                  <Navigation className="h-4 w-4" />
+                  On all trips
+                </Button>
+              ) : (
+                <Button variant="outline" className="flex-1 gap-2 px-2" asChild>
+                  <Link
+                    href="/saved?tab=trips"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <Navigation className="h-4 w-4 shrink-0" />
+                    Plan a trip
+                  </Link>
+                </Button>
+              )
+            ) : (
+              <Button variant="outline" className="flex-1 gap-2" disabled>
+                <Navigation className="h-4 w-4" />
+                Add to Trip
+              </Button>
+            )
+          ) : (
+            <Button variant="outline" className="flex-1 gap-2" asChild>
+              <Link href="/premium" className="flex items-center justify-center gap-2">
+                <Navigation className="h-4 w-4" />
+                Trips on Pro
+              </Link>
+            </Button>
+          )}
+          {isPremium && onDownloadGpx && (
+            <Button variant="ghost" size="icon" onClick={onDownloadGpx} title="Download GPX">
+              <Download className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+        {tripFeedback && (
+          <p className="text-xs text-forest text-center">
+            Added to “{tripFeedback}” — view in{" "}
+            <Link href="/saved?tab=trips" className="underline font-medium">
+              Collection
+            </Link>
+          </p>
         )}
       </div>
     </div>

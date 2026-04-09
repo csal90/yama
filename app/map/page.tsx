@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { spots } from "@/data/spots";
 import type { ScoutingSpot, MapLayer, UserMarker } from "@/types";
@@ -51,6 +52,22 @@ export default function MapPage() {
   const [pendingPin, setPendingPin] = useState<{ lat: number; lng: number } | null>(null);
   const [editingMarker, setEditingMarker] = useState<UserMarker | null>(null);
   const [markerError, setMarkerError] = useState<string | null>(null);
+  const [flyToPin, setFlyToPin] = useState<{ lat: number; lng: number } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const p = new URLSearchParams(window.location.search);
+    const mlat = p.get("mlat");
+    const mlng = p.get("mlng");
+    if (!mlat || !mlng) return;
+    const lat = parseFloat(mlat);
+    const lng = parseFloat(mlng);
+    if (Number.isNaN(lat) || Number.isNaN(lng)) return;
+    setFlyToPin({ lat, lng });
+    window.history.replaceState({}, "", "/map");
+  }, []);
 
   const {
     filters,
@@ -64,9 +81,29 @@ export default function MapPage() {
 
   const router = useRouter();
   const { user } = useAuth();
-  const { savedSpots, isSpotSaved, toggleSaveSpot, updateSpotNotes, isAuthenticated } = useSavedSpots();
-  const { isPremium, upgradeToPremium } = usePremium();
+  const {
+    savedSpots,
+    tripPlans,
+    toggleSaveSpot,
+    updateSpotNotes,
+    addSpotToTrip,
+    isAuthenticated,
+  } = useSavedSpots();
+  const { isPremium, loading: premiumLoading } = usePremium();
   const { markers, createMarker, updateMarker, deleteMarker } = useUserMarkers();
+
+  useEffect(() => {
+    if (!isPremium) {
+      setLayers((prev) =>
+        prev.map((l) => (l.id === "saved" ? { ...l, enabled: false } : l)),
+      );
+    }
+  }, [isPremium]);
+
+  const layersForUI = useMemo(
+    () => layers.filter((l) => isPremium || l.id !== "saved"),
+    [layers, isPremium],
+  );
 
   const savedSpotIds = useMemo(
     () => savedSpots.map((s) => s.spotId),
@@ -106,12 +143,17 @@ export default function MapPage() {
   const handleToggleSave = useCallback(
     (spotId: string) => {
       if (!isAuthenticated) {
-        router.push("/login");
+        router.push("/login?next=/map");
+        return;
+      }
+      if (premiumLoading) return;
+      if (!isPremium) {
+        router.push("/premium");
         return;
       }
       toggleSaveSpot(spotId);
     },
-    [isAuthenticated, toggleSaveSpot, router]
+    [isAuthenticated, isPremium, premiumLoading, toggleSaveSpot, router],
   );
 
   const handleSpotClick = useCallback((spot: ScoutingSpot) => {
@@ -260,20 +302,27 @@ export default function MapPage() {
               onCloseDetail={() => setActiveSpot(null)}
               isPremium={isPremium}
               privateNotes={
-                activeSpot
+                activeSpot && isPremium
                   ? savedSpots.find((s) => s.spotId === activeSpot.id)?.notes ?? ""
                   : ""
               }
               onNotesChange={
-                activeSpot
+                activeSpot && isPremium
                   ? (notes) => updateSpotNotes(activeSpot.id, notes)
                   : undefined
               }
               onDownloadGpx={
-                activeSpot
+                activeSpot && isPremium
                   ? () => downloadGpx(spotsToGpx([activeSpot]), `${activeSpot.id}.gpx`)
                   : undefined
               }
+              tripPlans={tripPlans}
+              onAddToTrip={
+                activeSpot && isAuthenticated && isPremium
+                  ? (tripId) => addSpotToTrip(tripId, activeSpot.id)
+                  : undefined
+              }
+              collectionEnabled={isPremium}
             />
           )}
         </div>
@@ -295,12 +344,19 @@ export default function MapPage() {
             placeMode={placeMode}
             onMapClick={handleMapClick}
             onUserMarkerClick={handleUserMarkerClick}
+            flyToPin={flyToPin}
+            pendingPlacement={pendingPin}
           />
-          <LayerToggle layers={layers} onToggle={handleToggleLayer} />
+          <LayerToggle layers={layersForUI} onToggle={handleToggleLayer} />
 
           {/* Place marker button */}
-          <div className="absolute top-3 left-3 z-[1000]">
-            {isAuthenticated && isPremium ? (
+          <div className="absolute top-3 left-3 z-[1000] min-h-[40px] flex items-center">
+            {isAuthenticated && premiumLoading ? (
+              <div
+                className="h-10 w-[148px] rounded-lg bg-sand-light/90 border border-sand/80 shadow-md animate-pulse"
+                aria-hidden
+              />
+            ) : isAuthenticated && isPremium ? (
               placeMode ? (
                 <div className="flex items-center gap-2">
                   <div className="rounded-lg bg-forest px-3 py-2 text-sm font-medium text-white shadow-md flex items-center gap-2">
@@ -325,17 +381,12 @@ export default function MapPage() {
                 </Button>
               )
             ) : isAuthenticated ? (
-              <Button
-                size="sm"
-                variant="outline"
-                className="gap-2 shadow-md bg-white"
-                onClick={async () => {
-                  await upgradeToPremium();
-                }}
-              >
-                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                <span className="hidden sm:inline">Upgrade to Place Markers</span>
-                <span className="sm:hidden">Upgrade</span>
+              <Button size="sm" variant="outline" className="gap-2 shadow-md bg-white" asChild>
+                <Link href="/premium">
+                  <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                  <span className="hidden sm:inline">Yama Pro — Place Markers</span>
+                  <span className="sm:hidden">Pro</span>
+                </Link>
               </Button>
             ) : (
               <Button

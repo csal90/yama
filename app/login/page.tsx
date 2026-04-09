@@ -48,6 +48,13 @@ export default function LoginPage() {
   const signupDisabled =
     mode === "signup" && (!allChecksPassed || !passwordsMatch || !confirmPassword);
 
+  function postAuthRedirectPath(): string {
+    if (typeof window === "undefined") return "/map";
+    const next = new URLSearchParams(window.location.search).get("next");
+    if (next && next.startsWith("/") && !next.startsWith("//")) return next;
+    return "/map";
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -70,7 +77,7 @@ export default function LoginPage() {
         setError(error.message);
       } else if (data.session) {
         // Email confirmation disabled or user auto-confirmed — signed in
-        router.push("/map");
+        router.push(postAuthRedirectPath());
         router.refresh();
       } else {
         // Email confirmation required — no session until they click the link
@@ -88,7 +95,7 @@ export default function LoginPage() {
       if (error) {
         setError(error.message);
       } else {
-        router.push("/map");
+        router.push(postAuthRedirectPath());
         router.refresh();
       }
     }
@@ -121,7 +128,7 @@ export default function LoginPage() {
           </h1>
           <p className="mt-2 text-sm text-stone-warm">
             {mode === "login"
-              ? "Sign in to save spots and plan trips"
+              ? "Sign in to use the map. Saved spots, trips & journal are part of Pro."
               : "Join the yamadori scouting community"}
           </p>
         </div>
@@ -278,6 +285,12 @@ export default function LoginPage() {
               </button>
             </>
           )}
+        </p>
+        <p className="text-center text-xs text-stone-warm/80">
+          <Link href="/premium" className="text-forest/90 hover:text-forest font-medium">
+            Yama Pro
+          </Link>{" "}
+          — markers, journal &amp; more
         </p>
       </div>
     </div>
