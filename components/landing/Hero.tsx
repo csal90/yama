@@ -18,25 +18,25 @@ export function Hero() {
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 rounded-full bg-forest/10 px-4 py-1.5 text-sm font-medium text-forest mb-6">
             <Mountain className="h-3.5 w-3.5" />
-            Colorado-focused yamadori scouting
+            Ethical yamadori scouting
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
-            Discover Colorado&apos;s
+            Discover wild
             <span className="text-forest"> bonsai treasures</span>
           </h1>
 
           <p className="mt-6 text-lg sm:text-xl text-stone-warm leading-relaxed max-w-2xl mx-auto">
             A map-based discovery platform for finding legal scouting areas,
             identifying species habitats, and planning ethical yamadori
-            collecting trips across Colorado.
+            collecting trips.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/map">
               <Button size="xl" className="gap-2.5 w-full sm:w-auto">
                 <Map className="h-5 w-5" />
-                Explore Colorado Map
+                Explore the Map
               </Button>
             </Link>
             <Link href="/species">
@@ -53,9 +53,9 @@ export function Hero() {
 
           <div className="mt-14 grid grid-cols-3 gap-8 max-w-lg mx-auto">
             {[
-              { value: "25+", label: "Scouting Spots" },
+              { value: "44", label: "Scouting Spots" },
               { value: "6", label: "Species Profiled" },
-              { value: "7", label: "Regions Covered" },
+              { value: "12", label: "Regions Covered" },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-forest">

@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yama — Colorado Yamadori & Bonsai Scouting",
+  title: "Yama — Yamadori Scouting & Bonsai Collecting",
   description:
-    "Discover legal scouting areas, track species habitats, and plan ethical bonsai collecting trips across Colorado.",
+    "Discover legal scouting areas, track species habitats, and plan ethical yamadori collecting trips.",
 };
 
 export default function RootLayout({

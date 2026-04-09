@@ -1,9 +1,9 @@
-import "leaflet/dist/leaflet.css";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 export const metadata = {
   title: "Explore Map — Yama",
   description:
-    "Discover Colorado scouting spots for ethical yamadori collecting. Filter by species, elevation, access type, and more.",
+    "Discover scouting spots for ethical yamadori collecting. Filter by species, elevation, access type, and more.",
 };
 
 export default function MapLayout({

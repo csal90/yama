@@ -15,8 +15,8 @@ export function Footer() {
             </div>
             <p className="text-sm text-stone-warm max-w-md leading-relaxed">
               A discovery platform for ethical bonsai collecting and yamadori
-              scouting in Colorado. We promote responsible practices, land
-              access awareness, and sustainable collection.
+              scouting. We promote responsible practices, land access
+              awareness, and sustainable collection.
             </p>
           </div>
 
@@ -30,7 +30,7 @@ export function Footer() {
                   href="/map"
                   className="hover:text-forest transition-colors"
                 >
-                  Colorado Map
+                  Explore Map
                 </Link>
               </li>
               <li>
@@ -67,7 +67,7 @@ export function Footer() {
                 <span className="cursor-default">Collection Ethics</span>
               </li>
               <li>
-                <span className="cursor-default">Colorado Land Access</span>
+                <span className="cursor-default">Land Access Info</span>
               </li>
             </ul>
           </div>
@@ -79,8 +79,8 @@ export function Footer() {
             purposes. Always verify regulations before collecting.
           </p>
           <p className="text-xs text-stone-warm flex items-center gap-1">
-            Made with <Heart className="h-3 w-3 text-rose-400" /> for Colorado
-            bonsai enthusiasts
+            Made with <Heart className="h-3 w-3 text-rose-400" /> for the
+            yamadori community
           </p>
         </div>
       </div>

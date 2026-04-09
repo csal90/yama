@@ -12,7 +12,7 @@ const features = [
     icon: MapPin,
     title: "Discover Legal Scouting Areas",
     description:
-      "Browse a curated map of Colorado scouting zones with verified land access information, permit details, and collection regulations.",
+      "Browse a curated map of scouting zones with verified land access information, permit details, and collection regulations.",
     color: "bg-emerald-50 text-emerald-600",
   },
   {
@@ -45,9 +45,9 @@ const features = [
   },
   {
     icon: Mountain,
-    title: "Colorado-Focused Intel",
+    title: "Region-Specific Intel",
     description:
-      "Detailed local knowledge covering the Front Range, Pikes Peak, San Juans, Wet Mountains, and more. Real elevations, real coordinates, real species data.",
+      "Detailed local knowledge with real elevations, real coordinates, and real species data. Currently covering Colorado — more regions coming soon.",
     color: "bg-stone-100 text-stone-600",
   },
 ];
@@ -64,7 +64,7 @@ export function Features() {
           </h2>
           <p className="mt-4 text-lg text-stone-warm">
             Yama combines mapping, species data, and ethical guidance into one
-            streamlined platform designed for Colorado bonsai enthusiasts.
+            streamlined platform designed for yamadori enthusiasts.
           </p>
         </div>
 

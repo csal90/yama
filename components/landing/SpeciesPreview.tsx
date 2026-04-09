@@ -14,11 +14,11 @@ export function SpeciesPreview() {
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Colorado species guide
+              Species guide
             </h2>
             <p className="mt-3 text-lg text-stone-warm max-w-xl">
-              Learn about the key bonsai-relevant species found in Colorado,
-              from foothills junipers to ancient alpine bristlecones.
+              Learn about key bonsai-relevant species, from foothills junipers
+              to ancient alpine bristlecones.
             </p>
           </div>
           <Link href="/species">

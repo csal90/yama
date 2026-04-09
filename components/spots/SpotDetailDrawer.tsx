@@ -17,6 +17,9 @@ import {
   BookmarkCheck,
   Navigation,
   Binoculars,
+  Download,
+  StickyNote,
+  Sparkles,
 } from "lucide-react";
 import {
   ACCESS_TYPE_LABELS,
@@ -36,6 +39,10 @@ interface SpotDetailDrawerProps {
   isSaved: boolean;
   onToggleSave: () => void;
   onClose: () => void;
+  isPremium?: boolean;
+  privateNotes?: string;
+  onNotesChange?: (notes: string) => void;
+  onDownloadGpx?: () => void;
 }
 
 export function SpotDetailDrawer({
@@ -43,6 +50,10 @@ export function SpotDetailDrawer({
   isSaved,
   onToggleSave,
   onClose,
+  isPremium,
+  privateNotes,
+  onNotesChange,
+  onDownloadGpx,
 }: SpotDetailDrawerProps) {
   return (
     <div className="slide-up flex flex-col h-full">
@@ -209,6 +220,27 @@ export function SpotDetailDrawer({
           </p>
         </div>
 
+        {/* Private notes (premium) */}
+        {isPremium && isSaved && (
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
+              <StickyNote className="h-4 w-4 text-amber-500" />
+              Private Notes
+              <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0 text-[9px] font-bold uppercase text-amber-700">
+                <Sparkles className="h-2 w-2" />
+                Pro
+              </span>
+            </h3>
+            <textarea
+              value={privateNotes ?? ""}
+              onChange={(e) => onNotesChange?.(e.target.value)}
+              placeholder="Add private observations, waypoints, collection plans..."
+              rows={3}
+              className="flex w-full rounded-lg border border-sand bg-white px-3 py-2 text-sm text-foreground shadow-sm transition-colors placeholder:text-stone-warm/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/30 focus-visible:border-forest/40 resize-none"
+            />
+          </div>
+        )}
+
         {/* Photo placeholder */}
         <div className="rounded-lg border border-dashed border-sand bg-sand-light/30 p-8 text-center">
           <div className="text-stone-warm/40 mb-2">
@@ -243,6 +275,11 @@ export function SpotDetailDrawer({
           <Navigation className="h-4 w-4" />
           Add to Trip
         </Button>
+        {isPremium && onDownloadGpx && (
+          <Button variant="ghost" size="icon" onClick={onDownloadGpx} title="Download GPX">
+            <Download className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   );

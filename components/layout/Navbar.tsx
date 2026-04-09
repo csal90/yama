@@ -13,6 +13,7 @@ import {
   LogIn,
   LogOut,
   User,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ const navLinks = [
   { href: "/map", label: "Explore Map", icon: Map },
   { href: "/species", label: "Species Guide", icon: BookOpen },
   { href: "/saved", label: "Saved Spots", icon: Bookmark },
+  { href: "/journal", label: "Journal", icon: BookOpen, premium: true },
 ];
 
 export function Navbar() {
@@ -31,6 +33,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
   const isMapPage = pathname === "/map";
   const supabase = createClient();
 
@@ -44,6 +47,14 @@ export function Navbar() {
     const init = async () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("is_premium")
+          .eq("id", data.user.id)
+          .single();
+        setIsPremium(profile?.is_premium ?? false);
+      }
     };
     init();
 
@@ -87,14 +98,16 @@ export function Navbar() {
               Yama
             </span>
             <span className="text-[10px] font-medium uppercase tracking-widest text-stone-warm leading-none">
-              Colorado Yamadori
+              Yamadori Scouting
             </span>
           </div>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">
           <nav className="flex items-center gap-1">
-            {navLinks.map(({ href, label, icon: Icon }) => (
+            {navLinks
+              .filter((link) => !link.premium || (user && isPremium))
+              .map(({ href, label, icon: Icon, premium }) => (
               <Link key={href} href={href}>
                 <Button
                   variant={pathname === href ? "default" : "ghost"}
@@ -106,6 +119,12 @@ export function Navbar() {
                 >
                   <Icon className="h-4 w-4" />
                   {label}
+                  {premium && (
+                    <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0 text-[9px] font-bold uppercase text-amber-700">
+                      <Sparkles className="h-2 w-2" />
+                      Pro
+                    </span>
+                  )}
                 </Button>
               </Link>
             ))}
@@ -178,7 +197,9 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-sand/80 bg-white slide-up">
           <nav className="flex flex-col p-4 gap-1">
-            {navLinks.map(({ href, label, icon: Icon }) => (
+            {navLinks
+              .filter((link) => !link.premium || (user && isPremium))
+              .map(({ href, label, icon: Icon, premium }) => (
               <Link
                 key={href}
                 href={href}
@@ -190,6 +211,12 @@ export function Navbar() {
                 >
                   <Icon className="h-4 w-4" />
                   {label}
+                  {premium && (
+                    <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0 text-[9px] font-bold uppercase text-amber-700">
+                      <Sparkles className="h-2 w-2" />
+                      Pro
+                    </span>
+                  )}
                 </Button>
               </Link>
             ))}

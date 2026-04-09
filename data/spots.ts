@@ -695,4 +695,404 @@ export const spots: ScoutingSpot[] = [
     ethicsReminder:
       "This is a heavily used climbing area. Be respectful of climbers and their equipment. Avoid disturbing climbing anchors, routes, or vegetation that stabilizes cliff edges.",
   },
+
+  // ── Black Forest / Colorado Springs Expansion ──────────────────
+  {
+    id: "black-forest-ponderosa",
+    name: "Black Forest Ponderosa Woodland",
+    region: "Colorado Springs",
+    coordinates: { lat: 39.01, lng: -104.63 },
+    elevation: 7200,
+    species: ["Ponderosa Pine"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "private_permission",
+    difficulty: "beginner",
+    hikeDistance: 0.5,
+    roadAccess: true,
+    badges: ["beginner_friendly", "road_accessible"],
+    description:
+      "The Black Forest north of Colorado Springs is one of the largest ponderosa woodlands along the Front Range. Originally called 'The Pinery' by settlers, the area was logged heavily in the 1800s. Regrowth ponderosas in decomposed granite soil develop compact, characterful forms. Some private landowners may grant access for scouting and selective collection.",
+    accessNotes:
+      "Predominantly private land. Some county road rights-of-way for visual scouting. The 2013 Black Forest Fire opened areas where stressed regrowth trees develop yamadori character.",
+    permitNotes:
+      "Private land requires explicit landowner permission. No USFS land here. Build relationships with property owners — many are receptive when approached respectfully.",
+    scoutingNotes:
+      "Focus on areas with thin, rocky soil where ponderosas grow slowly and develop thick bark early. Fire-scarred trees from 2013 often have dramatic deadwood features. The eastern edges where forest meets grassland have naturally stunted specimens.",
+    ethicsReminder:
+      "Always get written permission from landowners. The Black Forest community values their trees — be transparent about your intentions and respectful of property boundaries.",
+  },
+
+  // ── Northern Mountains / Route 14 Corridor ─────────────────────
+  {
+    id: "poudre-canyon-rustic",
+    name: "Poudre Canyon — Rustic Corridor",
+    region: "Northern Mountains",
+    coordinates: { lat: 40.72, lng: -105.58 },
+    elevation: 7600,
+    species: ["Ponderosa Pine", "Lodgepole Pine", "Douglas Fir"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 1.5,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "The Poudre Canyon along Route 14 west of Fort Collins is a well-known collecting corridor among Colorado yamadori practitioners. The area north of Rustic in Roosevelt National Forest has produced excellent ponderosa and lodgepole pine specimens. Rocky ridges above the canyon create ideal stressed growing conditions.",
+    accessNotes:
+      "Roosevelt National Forest. Highway 14 provides year-round road access through the canyon. Forest roads branch off to higher terrain. Some roads are seasonal.",
+    permitNotes:
+      "USFS transplant permit required — $5 per tree from the Canyon Lakes Ranger District. Collecting season typically April 15–May 31 and fall. Maximum 8 permits per transaction.",
+    scoutingNotes:
+      "The granite outcrops north of Rustic between miles 65–80 on Route 14 are the most productive area. Ponderosas in decomposed granite with limited soil develop compact, aged character. Lodgepole pines on exposed ridgetops also show good potential.",
+    ethicsReminder:
+      "This is a popular collecting area — practice sustainable harvesting. Don't over-collect from any single area. Spread your collection across a wide zone and only take trees you're confident you can grow.",
+  },
+  {
+    id: "cameron-pass",
+    name: "Cameron Pass Subalpine Zone",
+    region: "Northern Mountains",
+    coordinates: { lat: 40.52, lng: -105.89 },
+    elevation: 10200,
+    species: ["Engelmann Spruce", "Limber Pine", "Subalpine Fir"],
+    bestSeasons: ["summer"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 2.0,
+    roadAccess: true,
+    badges: ["high_alpine", "road_accessible"],
+    description:
+      "Cameron Pass on Route 14 provides road access to excellent subalpine habitat in the Medicine Bow Mountains. Spruce and limber pine at treeline develop krummholz forms from extreme wind exposure. The Continental Divide corridor here funnels weather that sculpts dramatic specimens.",
+    accessNotes:
+      "Roosevelt/Routt National Forest. Highway 14 provides paved access to the pass. Several trailheads at the summit. Summer is the primary season; winter access is limited to ski/snowshoe.",
+    permitNotes:
+      "USFS permit required. Contact the Canyon Lakes Ranger District. Subalpine collecting has additional timing considerations — the ground may not thaw until late June.",
+    scoutingNotes:
+      "The ridgeline north of the pass toward the Rawah Wilderness boundary has excellent wind-sculpted specimens. Limber pines on exposed knolls at 10,000–11,000ft show the best character. The Michigan Ditch trail provides good access to treeline habitat.",
+    ethicsReminder:
+      "Subalpine trees grow extremely slowly. A 6-inch trunk at this elevation may be over 100 years old. Collect conservatively and only with proper permits and experience.",
+  },
+
+  // ── Western Slope ──────────────────────────────────────────────
+  {
+    id: "grand-mesa-pinon-juniper",
+    name: "Grand Mesa Piñon-Juniper Woodland",
+    region: "Western Slope",
+    coordinates: { lat: 39.03, lng: -108.12 },
+    elevation: 6800,
+    species: ["Utah Juniper", "Piñon Pine", "Rocky Mountain Juniper"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "beginner",
+    hikeDistance: 1.0,
+    roadAccess: true,
+    badges: ["beginner_friendly", "road_accessible"],
+    description:
+      "The lower flanks of Grand Mesa transition from piñon-juniper woodland into montane forest, creating excellent collecting habitat. Utah juniper and piñon pine in the arid mesa country develop twisted, characterful forms in rocky red soil. This is classic western slope collecting territory.",
+    accessNotes:
+      "Grand Mesa National Forest and adjacent BLM land. Multiple access roads from Highway 65 and I-70. Lower-elevation areas are accessible year-round.",
+    permitNotes:
+      "USFS or BLM permit depending on land jurisdiction. Contact the Grand Valley Ranger District (USFS) or Grand Junction BLM Field Office. Permits are typically $5–10 per tree.",
+    scoutingNotes:
+      "The piñon-juniper belt between 5,500–7,500ft on the south and west flanks has the best material. Look for Utah junipers growing from sandstone ledges and piñon pines in decomposed shale. The driest, most exposed sites produce the most compact specimens.",
+    ethicsReminder:
+      "Western slope woodland ecosystems are slow to recover from disturbance. Collect selectively and restore the site by filling holes and redistributing soil. Piñon-juniper woodlands provide critical wildlife habitat.",
+  },
+  {
+    id: "uncompahgre-plateau",
+    name: "Uncompahgre Plateau Ridges",
+    region: "Western Slope",
+    coordinates: { lat: 38.48, lng: -108.52 },
+    elevation: 8200,
+    species: ["Rocky Mountain Juniper", "Ponderosa Pine", "Utah Juniper"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 2.0,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "The Uncompahgre Plateau is a massive elevated mesa southwest of Grand Junction known among collectors for exceptional Rocky Mountain juniper. The dry climate, decomposed granite substrate, and high winds create trees with extraordinary deadwood and live vein features — the hallmark of world-class yamadori.",
+    accessNotes:
+      "Uncompahgre National Forest and BLM land. Divide Road (Forest Road 402) traverses the plateau. Many side roads provide access. High clearance recommended; 4WD for some roads.",
+    permitNotes:
+      "USFS permit from the Ouray or Norwood Ranger District, or BLM permit from the Uncompahgre Field Office. This is productive collecting country — permits are generally available.",
+    scoutingNotes:
+      "The exposed ridgelines along the western escarpment between 7,500–9,000ft have the finest juniper specimens. Trees growing from rock outcrops with significant deadwood are the prize finds. The area around Columbine Pass is particularly productive. Bring plenty of water — it's dry country.",
+    ethicsReminder:
+      "The Uncompahgre Plateau is a working landscape shared with ranchers and hunters. Respect grazing allotments and fence lines. Practice zero-trace collecting — restore every site completely.",
+  },
+  {
+    id: "gateway-canyon",
+    name: "Gateway Canyon Desert Junipers",
+    region: "Western Slope",
+    coordinates: { lat: 38.68, lng: -108.97 },
+    elevation: 5400,
+    species: ["Utah Juniper", "Piñon Pine"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 2.0,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "The red rock desert canyon country near Gateway hosts some of Colorado's most dramatic Utah juniper specimens. These ancient, wind-blasted trees grow from sandstone cracks and ledges with massive deadwood features. The dry heat and mineral-rich soil produce dense, slow-growing wood prized for yamadori.",
+    accessNotes:
+      "BLM land managed by the Grand Junction Field Office. Access via Highway 141. Remote area — carry extra water and fuel. Cell service limited.",
+    permitNotes:
+      "BLM permit required for collection. Contact the Grand Junction Field Office. The area is also popular with rock climbers — be aware of climbing area boundaries.",
+    scoutingNotes:
+      "The canyon walls and rimrock above the Dolores River have exceptional Utah junipers, some estimated at 500+ years old. Look for trees with bark stripped by wind to expose pale, twisted deadwood (shari). The driest, most exposed ledges produce the finest specimens.",
+    ethicsReminder:
+      "Desert ecosystems are extremely slow to recover. A tree growing here for 500 years cannot be replaced in your lifetime. Collect only what you're certain you can keep alive and develop into worthy bonsai.",
+  },
+
+  // ── Elk Mountains / Aspen Area ─────────────────────────────────
+  {
+    id: "independence-pass",
+    name: "Independence Pass Treeline",
+    region: "Elk Mountains",
+    coordinates: { lat: 39.11, lng: -106.56 },
+    elevation: 12100,
+    species: ["Engelmann Spruce", "Limber Pine", "Bristlecone Pine"],
+    bestSeasons: ["summer"],
+    accessType: "public_land",
+    difficulty: "advanced",
+    hikeDistance: 2.5,
+    roadAccess: true,
+    badges: ["high_alpine", "road_accessible"],
+    description:
+      "Independence Pass at 12,095ft provides road access to some of the highest treeline habitat in Colorado. Ancient bristlecone pines and limber pines on the exposed ridgelines above the pass display centuries of wind sculpting. The Sawatch and Elk Mountain ranges converge here, creating dramatic alpine scenery.",
+    accessNotes:
+      "White River / San Isabel National Forest. Highway 82 provides paved access (seasonal, typically June–October). Trailheads at the pass summit. High altitude — acclimatize before strenuous activity.",
+    permitNotes:
+      "USFS permit required for any collection. Contact the Aspen-Sopris Ranger District. Bristlecone collection is restricted — verify current regulations.",
+    scoutingNotes:
+      "The alpine tundra and krummholz zone within a mile north and south of the pass summit has extraordinary specimens. Look for the ancient bristlecone grove on the ridge northeast of the parking area. Limber pines on exposed granite knolls show fantastic deadwood and live-vein features.",
+    ethicsReminder:
+      "Independence Pass is one of Colorado's most visited alpine areas. Your collecting practices are visible to thousands of visitors. Set an exemplary standard — or better, scout and photograph only.",
+  },
+  {
+    id: "marble-crystal-river",
+    name: "Crystal River Valley Corridor",
+    region: "Elk Mountains",
+    coordinates: { lat: 39.07, lng: -107.19 },
+    elevation: 7800,
+    species: ["Douglas Fir", "Rocky Mountain Juniper", "Engelmann Spruce"],
+    bestSeasons: ["spring", "summer"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 2.5,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "The Crystal River valley between Carbondale and Marble passes through dramatic canyon terrain with diverse conifer habitat. Douglas fir and juniper on the south-facing canyon walls develop excellent character from the harsh microclimate. The marble quarry area provides unique geological context for tree growth.",
+    accessNotes:
+      "White River National Forest. Highway 133 and County Road 3 provide road access. Some areas require hiking off-road for the best specimens.",
+    permitNotes:
+      "USFS permit required. Contact the Aspen-Sopris Ranger District. Mixed land ownership in the valley — verify jurisdiction at specific sites.",
+    scoutingNotes:
+      "The canyon narrows between Redstone and Marble have excellent cliff-dwelling conifers. South-facing limestone and granite walls host junipers and Douglas fir with dramatic root-over-rock growth. The area around the old marble quarry has unique mineral-influenced growing conditions.",
+    ethicsReminder:
+      "The Crystal River valley is a sensitive ecosystem and popular recreation corridor. Be mindful of other users, especially near the Crystal Mill historic site.",
+  },
+
+  // ── Sawatch Range ──────────────────────────────────────────────
+  {
+    id: "cottonwood-pass",
+    name: "Cottonwood Pass Bristlecone Zone",
+    region: "Sawatch Range",
+    coordinates: { lat: 38.83, lng: -106.41 },
+    elevation: 11800,
+    species: ["Bristlecone Pine", "Limber Pine", "Engelmann Spruce"],
+    bestSeasons: ["summer"],
+    accessType: "public_land",
+    difficulty: "advanced",
+    hikeDistance: 2.5,
+    roadAccess: true,
+    badges: ["high_alpine", "road_accessible"],
+    description:
+      "Cottonwood Pass between Buena Vista and Gunnison crosses the Continental Divide through excellent bristlecone and limber pine habitat. The Sawatch Range's high ridges and exposed granite support ancient specimens with dramatic form. Road access to 12,000ft makes this one of the most accessible high-alpine collecting zones.",
+    accessNotes:
+      "Gunnison and San Isabel National Forest. Paved road to the pass summit (seasonal, typically June–October). Trailheads at and near the summit.",
+    permitNotes:
+      "USFS permit required. Contact the Salida Ranger District. Bristlecone collection is heavily restricted at high elevation.",
+    scoutingNotes:
+      "The ridgelines south of the pass between 11,500–12,500ft have exceptional bristlecone specimens. The granite substrate supports trees with exposed root systems and significant deadwood. The Ptarmigan Lake trail provides access to productive scouting terrain.",
+    ethicsReminder:
+      "High-altitude bristlecone habitat is irreplaceable. These trees may predate European settlement. Scout respectfully and consider this a learning destination rather than a collecting one.",
+  },
+  {
+    id: "mt-princeton-hot-springs",
+    name: "Mt. Princeton Foothills",
+    region: "Sawatch Range",
+    coordinates: { lat: 38.73, lng: -106.22 },
+    elevation: 8800,
+    species: ["Ponderosa Pine", "Douglas Fir", "Rocky Mountain Juniper"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 3.0,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "The eastern foothills of Mt. Princeton above the Arkansas Valley offer excellent mixed-species collecting at moderate elevation. Ponderosa pine and juniper in decomposed granite develop compact, aged forms. The dry valley climate stresses trees into yamadori-worthy specimens without requiring extreme alpine conditions.",
+    accessNotes:
+      "San Isabel National Forest. County Road 162 provides access past Mt. Princeton Hot Springs. Forest roads lead to higher terrain. Most accessible spring through fall.",
+    permitNotes:
+      "USFS permit required. Contact the Salida Ranger District. Moderate-elevation collecting is generally straightforward to permit.",
+    scoutingNotes:
+      "The rocky ridges between 8,000–9,500ft on the east-facing slopes have the best material. Decomposed granite pockets produce ponderosas with naturally constrained root systems — ideal for collection. The area around Chalk Creek has unique mineral-influenced soil conditions.",
+    ethicsReminder:
+      "The Collegiate Peaks area attracts many visitors. Practice discreet, respectful collecting. Restore sites completely and avoid collecting in view of popular trails or camping areas.",
+  },
+
+  // ── Arkansas Valley ────────────────────────────────────────────
+  {
+    id: "royal-gorge-rim",
+    name: "Royal Gorge Rim Country",
+    region: "Arkansas Valley",
+    coordinates: { lat: 38.46, lng: -105.33 },
+    elevation: 6800,
+    species: ["Rocky Mountain Juniper", "Piñon Pine", "Ponderosa Pine"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 2.0,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "The rim country surrounding the Royal Gorge features ancient junipers and piñon pines growing from granite and schist formations along the Arkansas River canyon. The extreme exposure and thin rocky soil produce trees with extraordinary deadwood and twisted live veins. BLM land in the area is accessible for permitted collection.",
+    accessNotes:
+      "BLM land surrounding Royal Gorge Park (the park itself is a private attraction). Multiple access points from county roads south of Cañon City. Some terrain requires scrambling.",
+    permitNotes:
+      "BLM permit from the Royal Gorge Field Office. Avoid the privately owned Royal Gorge Bridge & Park area. Focus on BLM parcels east and west of the gorge.",
+    scoutingNotes:
+      "The canyon rim east of the bridge has exceptional cliff-dwelling junipers on BLM land. Piñon pines on the south-facing slopes above the river develop dense, compact forms. The geology transitions from granite to schist — note how soil chemistry affects growth patterns.",
+    ethicsReminder:
+      "The Royal Gorge area is ecologically sensitive and includes bighorn sheep habitat. Avoid disturbing wildlife corridors and collect only from stable, non-erosion-prone areas.",
+  },
+  {
+    id: "browns-canyon",
+    name: "Browns Canyon Wilderness Edge",
+    region: "Arkansas Valley",
+    coordinates: { lat: 38.73, lng: -106.05 },
+    elevation: 7200,
+    species: ["Rocky Mountain Juniper", "Ponderosa Pine", "Douglas Fir"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "advanced",
+    hikeDistance: 3.0,
+    roadAccess: false,
+    badges: ["remote_access"],
+    description:
+      "The granite canyon walls along the Arkansas River near Browns Canyon National Monument host exceptional juniper and ponderosa specimens. The narrow canyon creates extreme microclimates — intense sun, reflected heat, and wind tunneling produce dramatic stressed growth. Collecting is on adjacent BLM/USFS land outside the monument.",
+    accessNotes:
+      "BLM and San Isabel National Forest land adjacent to Browns Canyon National Monument. Wilderness and monument boundaries prohibit collection — focus on adjacent permitted areas. Access via Ruby Mountain or Railroad Bridge trailheads.",
+    permitNotes:
+      "Collection prohibited within the National Monument and Wilderness. Adjacent USFS land requires a permit from the Salida Ranger District. BLM parcels — contact the Royal Gorge Field Office.",
+    scoutingNotes:
+      "The granite walls outside the monument boundary on the east side have excellent juniper. Use the monument for scouting and visual reference, then target specimens on permitted land nearby. The river access points provide canyon-bottom perspectives for spotting cliff-growing trees.",
+    ethicsReminder:
+      "National monument and wilderness boundaries exist for a reason. Respect them absolutely. Collect only on verified permitted land and carry your permits at all times.",
+  },
+
+  // ── Windy Ridge / Mosquito Range Expansion ─────────────────────
+  {
+    id: "windy-ridge-bristlecone",
+    name: "Windy Ridge Bristlecone Scenic Area",
+    region: "Mosquito Range",
+    coordinates: { lat: 39.28, lng: -106.1 },
+    elevation: 11700,
+    species: ["Bristlecone Pine", "Limber Pine"],
+    bestSeasons: ["summer"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 1.0,
+    roadAccess: false,
+    badges: ["scouting_only", "high_alpine"],
+    description:
+      "Windy Ridge Bristlecone Pine Scenic Area near Alma contains some of the oldest bristlecone pines in Colorado, with specimens over 800 years old. This federally protected area on the eastern flank of Mt. Bross at 11,700ft is a must-visit for any serious yamadori practitioner — not for collecting, but for studying the pinnacle of natural bonsai form.",
+    accessNotes:
+      "Pike National Forest. Access from Highway 9 south of Alma via Kite Lake Road. High-clearance vehicle recommended. Summer-only access (typically June–September).",
+    permitNotes:
+      "Collection is PROHIBITED in the Scenic Area. This is a protected grove for study and appreciation only. Use it to inform your collecting in other areas.",
+    scoutingNotes:
+      "The ancient bristlecones here display every form of wind sculpting, deadwood, and survival adaptation imaginable. Study how live veins wrap around massive deadwood sections. Note the 'flag' growth pattern pointing away from prevailing winds. Photograph extensively — this is your masterclass.",
+    ethicsReminder:
+      "This grove is a living laboratory and national treasure. Stay on trails, do not touch or disturb trees, and leave nothing behind. The knowledge you gain here will make you a better collector elsewhere.",
+  },
+
+  // ── Additional Front Range / Foothills ──────────────────────────
+  {
+    id: "pine-valley-ranch",
+    name: "Pine Valley Ranch — North Fork Zone",
+    region: "Front Range",
+    coordinates: { lat: 39.42, lng: -105.28 },
+    elevation: 6900,
+    species: ["Ponderosa Pine", "Rocky Mountain Juniper", "Douglas Fir"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "beginner",
+    hikeDistance: 1.5,
+    roadAccess: true,
+    badges: ["scouting_only", "beginner_friendly", "road_accessible"],
+    description:
+      "Pine Valley Ranch Park along the North Fork of the South Platte features a transition zone between grassland and montane forest. Ponderosas growing in rocky granite outcrops above the river develop characterful forms. Excellent beginner scouting location to study how substrate and exposure influence tree growth.",
+    accessNotes:
+      "Jefferson County Open Space. Free parking and access. Well-maintained trails. Open year-round, sunrise to sunset.",
+    permitNotes:
+      "Collection NOT permitted in Jeffco Open Space. Use for scouting education and species study. The adjacent Pike National Forest (up-canyon) allows permitted collection.",
+    scoutingNotes:
+      "Walk the river trail and observe ponderosas on the granite domes above. Note how trees on south-facing rock faces differ from those in sheltered valley bottoms. The rock outcrops near the historic lodge have excellent study specimens.",
+    ethicsReminder:
+      "Open space parks are for observation and learning. Use your scouting skills here to identify what makes a great yamadori candidate, then apply that knowledge in permitted collecting areas.",
+  },
+  {
+    id: "kenosha-pass",
+    name: "Kenosha Pass — South Park Gateway",
+    region: "Front Range",
+    coordinates: { lat: 39.41, lng: -105.76 },
+    elevation: 10000,
+    species: ["Limber Pine", "Lodgepole Pine", "Engelmann Spruce"],
+    bestSeasons: ["spring", "summer"],
+    accessType: "public_land",
+    difficulty: "intermediate",
+    hikeDistance: 3.0,
+    roadAccess: true,
+    badges: ["road_accessible"],
+    description:
+      "Kenosha Pass marks the transition from the Front Range to South Park, a vast high-altitude valley. The exposed ridgelines at 10,000ft host limber pines and lodgepoles battered by winds sweeping across the park. The Colorado Trail passes through here, providing good access to collecting terrain.",
+    accessNotes:
+      "Pike National Forest. Highway 285 provides year-round paved access to the pass. Trailhead parking at the summit. The Colorado Trail heads both directions along the ridgeline.",
+    permitNotes:
+      "USFS permit required. Contact the South Park Ranger District. Moderate to good availability of permits for this area.",
+    scoutingNotes:
+      "Follow the Colorado Trail north from the pass for the best limber pine specimens on exposed granite ridges. The wind exposure from South Park creates dramatically one-sided growth patterns. Lodgepole stands at the forest edges have naturally thinned specimens with good taper.",
+    ethicsReminder:
+      "Kenosha Pass is a popular trailhead and scenic stop. Practice discreet collecting away from high-traffic trails. The Colorado Trail is a national treasure — leave the corridor undisturbed.",
+  },
+  {
+    id: "waterton-canyon",
+    name: "Waterton Canyon Granite Walls",
+    region: "Front Range",
+    coordinates: { lat: 39.44, lng: -105.1 },
+    elevation: 5800,
+    species: ["Rocky Mountain Juniper", "Ponderosa Pine"],
+    bestSeasons: ["spring", "fall"],
+    accessType: "public_land",
+    difficulty: "beginner",
+    hikeDistance: 2.0,
+    roadAccess: true,
+    badges: ["scouting_only", "beginner_friendly", "road_accessible"],
+    description:
+      "Waterton Canyon south of Denver is the starting point of the Colorado Trail and features an accessible granite canyon with excellent juniper habitat. The canyon's south-facing walls host characterful junipers visible from the wide gravel trail. Perfect for beginners learning to identify yamadori-worthy specimens from a comfortable trail.",
+    accessNotes:
+      "Denver Water property with public trail access. Flat gravel road (no vehicles). The trail follows the South Platte into the canyon. Open year-round. Bighorn sheep are common — keep distance.",
+    permitNotes:
+      "Collection is NOT permitted — Denver Water property. Excellent scouting venue to develop your eye before collecting in nearby Pike National Forest areas.",
+    scoutingNotes:
+      "The canyon walls between miles 2–5 have the most impressive cliff-dwelling junipers. Use binoculars to study how roots penetrate granite cracks and how wind shapes crown architecture. The warm canyon microclimate means trees here are more vigorous than high-elevation specimens.",
+    ethicsReminder:
+      "Waterton Canyon is a protected water supply corridor. Stay on the trail, don't disturb vegetation, and respect the bighorn sheep herd. This is an education-only destination.",
+  },
 ];

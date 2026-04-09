@@ -24,6 +24,10 @@ interface MapSidebarProps {
   onSpotClick: (spot: ScoutingSpot) => void;
   onToggleSave: (spotId: string) => void;
   onCloseDetail: () => void;
+  isPremium?: boolean;
+  privateNotes?: string;
+  onNotesChange?: (notes: string) => void;
+  onDownloadGpx?: () => void;
 }
 
 export function MapSidebar({
@@ -40,6 +44,10 @@ export function MapSidebar({
   onSpotClick,
   onToggleSave,
   onCloseDetail,
+  isPremium,
+  privateNotes,
+  onNotesChange,
+  onDownloadGpx,
 }: MapSidebarProps) {
   if (activeSpot) {
     return (
@@ -49,6 +57,10 @@ export function MapSidebar({
           isSaved={savedSpotIds.includes(activeSpot.id)}
           onToggleSave={() => onToggleSave(activeSpot.id)}
           onClose={onCloseDetail}
+          isPremium={isPremium}
+          privateNotes={privateNotes}
+          onNotesChange={onNotesChange}
+          onDownloadGpx={onDownloadGpx}
         />
       </div>
     );

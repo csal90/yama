@@ -6,7 +6,7 @@ import { TreePine, ShieldCheck } from "lucide-react";
 export const metadata = {
   title: "Species Guide — Yama",
   description:
-    "Learn about Colorado's bonsai-relevant tree species, from Rocky Mountain Juniper to ancient Bristlecone Pine.",
+    "Learn about bonsai-relevant tree species, from Rocky Mountain Juniper to ancient Bristlecone Pine.",
 };
 
 export default function SpeciesPage() {
@@ -18,13 +18,13 @@ export default function SpeciesPage() {
           <div className="flex items-center gap-2 mb-4">
             <TreePine className="h-6 w-6 text-forest" />
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Colorado Species Guide
+              Species Guide
             </h1>
           </div>
           <p className="text-lg text-stone-warm leading-relaxed">
-            A field guide to the key bonsai-relevant tree species found across
-            Colorado&apos;s diverse habitats — from low-elevation foothills junipers
-            to ancient high-alpine bristlecone pines.
+            A field guide to key bonsai-relevant tree species — from
+            low-elevation foothills junipers to ancient high-alpine bristlecone
+            pines.
           </p>
         </div>
 

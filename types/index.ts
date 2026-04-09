@@ -26,7 +26,12 @@ export type Region =
   | "Rocky Mountain Foothills"
   | "Wet Mountains"
   | "Sangre de Cristo"
-  | "Mosquito Range";
+  | "Mosquito Range"
+  | "Western Slope"
+  | "Elk Mountains"
+  | "Sawatch Range"
+  | "Northern Mountains"
+  | "Arkansas Valley";
 
 export interface ScoutingSpot {
   id: string;
@@ -78,6 +83,58 @@ export interface TripPlan {
   notes: string;
   plannedDate?: string;
 }
+
+// ── Premium: User Markers ────────────────────────────────────
+
+export type MarkerStatus = "scouted" | "collected" | "potted" | "dead";
+export type MarkerVisibility = "private" | "premium_shared";
+
+export interface UserMarker {
+  id: string;
+  userId: string;
+  lat: number;
+  lng: number;
+  species: string | null;
+  status: MarkerStatus;
+  notes: string;
+  visibility: MarkerVisibility;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MarkerPhoto {
+  id: string;
+  markerId: string;
+  storagePath: string;
+  caption: string;
+  createdAt: string;
+}
+
+// ── Premium: Journal ─────────────────────────────────────────
+
+export interface JournalEntry {
+  id: string;
+  userId: string;
+  markerId: string | null;
+  title: string;
+  body: string;
+  entryDate: string;
+  stage: MarkerStatus;
+  createdAt: string;
+}
+
+// ── Premium: Spot Photos ─────────────────────────────────────
+
+export interface SpotPhoto {
+  id: string;
+  userId: string;
+  spotId: string;
+  storagePath: string;
+  caption: string;
+  createdAt: string;
+}
+
+// ── Map & Filters ────────────────────────────────────────────
 
 export interface MapFilters {
   species: string[];

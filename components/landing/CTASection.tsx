@@ -15,7 +15,7 @@ export function CTASection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-            Ready to explore Colorado&apos;s bonsai landscape?
+            Ready to find your next yamadori?
           </h2>
           <p className="mt-4 text-lg text-white/80 leading-relaxed">
             Start scouting with confidence. Browse the map, learn the species,
